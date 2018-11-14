@@ -4,6 +4,7 @@ import { FirebaseStoreProvider } from '../../providers/firebase-store/firebase-s
 import { AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/rx';
 import { AlertController } from 'ionic-angular';
+import { FirebaseAuthProvider } from '../../providers/firebase-auth/firebase-auth';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { AlertController } from 'ionic-angular';
 })
 export class HomePage {
   items: Observable<any[]>;
-  constructor(public navCtrl: NavController, public firebaseProvider: FirebaseStoreProvider,public alertCtrl: AlertController ) {
+  constructor(public navCtrl: NavController, public firebaseProvider: FirebaseStoreProvider,public alertCtrl: AlertController, public auth: FirebaseAuthProvider ) {
     this.items = firebaseProvider.listItems();
   }
   addItem(){
@@ -86,6 +87,7 @@ export class HomePage {
     });
     confirm.present();
   }
-
-  
+  logout(){
+    this.auth.signOut();
+  }
 }

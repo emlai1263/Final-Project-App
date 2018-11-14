@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class FirebaseStoreProvider {
@@ -11,14 +11,14 @@ export class FirebaseStoreProvider {
   }
 
   listItems(){
-    return this.afs.collection('/Items').snapshotChanges().pipe( 
-      map(actions => actions.map(item => {
+    return this.afs.collection('/Items').snapshotChanges().map(actions => {
+      return actions.map( item=> {
         const id = item.payload.doc.id;
-        const data = item.payload.doc.data();
-        data['id'] = id;
-        return data;
-      }))
-    );
+          const data = item.payload.doc.data();
+          data['id'] = id;
+          return data;
+      });
+    });
   }
 
 addItem(value){
