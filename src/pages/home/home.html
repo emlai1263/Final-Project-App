@@ -18,6 +18,9 @@
         {{item.name}}
       </ion-item>
       <ion-item-options>
+          <button ion-button icon-only light (click)="updateItem(item)">
+              <ion-icon name="paper"></ion-icon>
+            </button>
         <button ion-button icon-only danger (click)="deleteItem(item.name, item.id)">
           <ion-icon name="trash"></ion-icon>
         </button>

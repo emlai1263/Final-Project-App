@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HomePage } from "../home/home";
+import { FirebaseAuthProvider } from "../../providers/firebase-auth/firebase-auth"
 /**
- * Generated class for the SignUpPage page.
+ * Generated class for the SignupPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,16 +12,34 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-sign-up',
-  templateUrl: 'sign-up.html',
+  selector: 'page-signup',
+  templateUrl: 'signup.html',
 })
-export class SignUpPage {
+export class SignupPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  signupError: string;
+	form: FormGroup;
+
+	constructor(
+		fb: FormBuilder,
+		private navCtrl: NavController,
+    private auth: FirebaseAuthProvider
+	) {
+		this.form = fb.group({
+			email: ['', Validators.compose([Validators.required, Validators.email])],
+			password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+		});
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SignUpPage');
+  signup() {
+		let data = this.form.value;
+		let credentials = {
+			email: data.email,
+			password: data.password
+		};
+		this.auth.signUp(credentials).then(
+			() => this.navCtrl.setRoot(HomePage),
+			error => this.signupError = error.message
+		);
   }
-
 }

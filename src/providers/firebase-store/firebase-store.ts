@@ -45,4 +45,8 @@ addItem(value){
 deleteItem(id){
   this.afs.doc('/Items/' + id).delete();
 }
+updateItem(id, data){
+  this.afs.doc('/Items/' + id).update(data);
+}
+
 }

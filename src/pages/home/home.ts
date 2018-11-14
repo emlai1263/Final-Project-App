@@ -90,4 +90,56 @@ export class HomePage {
   logout(){
     this.auth.signOut();
   }
+  updateItem(item){
+    let prompt = this.alertCtrl.create({
+      title: 'Edit item',
+      message: "Edit item data",
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Item name',
+        },
+        {
+          name: 'description',
+          placeholder: 'Description',
+        },
+        {
+          name: 'price',
+          placeholder: 'Price',
+          type: 'number'
+        },
+        {
+          name: 'atk',
+          placeholder: 'Atk',
+          type: 'number'
+        },{
+          name: 'def',
+          placeholder: 'Def',
+          type: 'number'
+        },
+        {
+          name: 'magic',
+          placeholder: 'Magic',
+          type: 'number'
+        },
+        {
+          name: 'magicDef',
+          placeholder: 'Magic def',
+          type: 'number'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.firebaseProvider.updateItem(item.id, data);
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
 }
