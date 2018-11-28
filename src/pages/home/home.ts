@@ -142,4 +142,28 @@ export class HomePage {
     });
     prompt.present();
   }
+  createGame(){
+    let prompt = this.alertCtrl.create({
+      title: 'Add Game',
+      message: "Start new game",
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Game name',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel'
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.firebaseProvider.createGame(data, this.auth.user);
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
 }

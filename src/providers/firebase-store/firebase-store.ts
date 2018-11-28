@@ -49,4 +49,30 @@ updateItem(id, data){
   this.afs.doc('/Items/' + id).update(data);
 }
 
+createGame(value,user){
+  return new Promise<any>((resolve, reject) => {
+    var item = {
+      name: value.name
+    };
+    this.afs.collection('/Games').add(item)
+    .then(
+      (res) => {
+        resolve(res)
+      },
+        err => reject(err)
+    )
+  })
+}
+
+listGames(){
+  return this.afs.collection('/Games').snapshotChanges().map(actions => {
+    return actions.map( item=> {
+      const id = item.payload.doc.id;
+        const data = item.payload.doc.data();
+        data['id'] = id;
+        return data;
+    });
+  });
+}
+
 }

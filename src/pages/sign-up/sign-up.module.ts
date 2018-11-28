@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { SignupPage } from './signup';
+import { SignupPage } from './sign-up';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 @NgModule({

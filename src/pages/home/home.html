@@ -12,6 +12,12 @@
 </ion-header>
 
 <ion-content padding>
+    <div *ngIf="auth.authenticated == true">
+        <p>
+          Welcome, <b>{{auth.getEmail()}}</b> 
+        </p>
+        <button ion-button (click)="createGame()">Create game</button>
+      </div>
   <ion-list>
     <ion-item-sliding *ngFor="let item of items | async">
       <ion-item>
