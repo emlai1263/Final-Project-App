@@ -52,7 +52,10 @@ updateItem(id, data){
 createGame(value,user){
   return new Promise<any>((resolve, reject) => {
     var item = {
-      name: value.name
+      name: value.name,
+      player1: user.uid,
+      player2: null,
+      state: "new"
     };
     this.afs.collection('/Games').add(item)
     .then(
@@ -73,6 +76,13 @@ listGames(){
         return data;
     });
   });
+}
+getGame(gameid){
+  return this.afs.firestore.doc('/Games/'+gameid).get().then(
+    doc => {
+      return doc
+    }
+  )
 }
 
 }

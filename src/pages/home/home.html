@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Hello Firebase
+      Main hub
     </ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="addItem()">
@@ -16,9 +16,20 @@
         <p>
           Welcome, <b>{{auth.getEmail()}}</b> 
         </p>
+        <div *ngIf="currentGame==null">
         <button ion-button (click)="createGame()">Create game</button>
+      <ion-list>
+        <ion-item *ngFor="let game of games | async">
+          {{game.name}}
+          <button ion-button icon-only light (click)="joinGame(game.id)">
+              join
+            </button>
+        </ion-item>
+      </ion-list>
       </div>
+      <div *ngIf="currentGame!=null">
   <ion-list>
+    {{currentGame.data().name}}
     <ion-item-sliding *ngFor="let item of items | async">
       <ion-item>
         {{item.name}}
@@ -33,5 +44,8 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+  <button ion-button (click)="leaveGame()">Leave game</button>
+</div>
   <button ion-button (click)="logout()">Log Out</button>
+</div>
 </ion-content>

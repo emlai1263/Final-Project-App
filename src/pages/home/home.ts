@@ -5,7 +5,7 @@ import { AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/rx';
 import { AlertController } from 'ionic-angular';
 import { FirebaseAuthProvider } from '../../providers/firebase-auth/firebase-auth';
-
+import * as firebase from 'firebase'
 
 @Component({
   selector: 'page-home',
@@ -13,8 +13,12 @@ import { FirebaseAuthProvider } from '../../providers/firebase-auth/firebase-aut
 })
 export class HomePage {
   items: Observable<any[]>;
+  games: Observable<any[]>;
+  currentGame: firebase.firestore.DocumentSnapshot;
   constructor(public navCtrl: NavController, public firebaseProvider: FirebaseStoreProvider,public alertCtrl: AlertController, public auth: FirebaseAuthProvider ) {
     this.items = firebaseProvider.listItems();
+    this.games = firebaseProvider.listGames();
+    this.currentGame = null
   }
   addItem(){
     let prompt = this.alertCtrl.create({
@@ -165,5 +169,16 @@ export class HomePage {
       ]
     });
     prompt.present();
+  }
+  joinGame(gameid){
+    console.log(gameid)
+    this.firebaseProvider.getGame(gameid).then(
+      game => {
+        this.currentGame = game
+      }
+    )
+  }
+  leaveGame(){
+    this.currentGame = null;
   }
 }
