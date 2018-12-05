@@ -61,6 +61,7 @@ createGame(value,user){
     .then(
       (res) => {
         resolve(res)
+        return res;
       },
         err => reject(err)
     )
@@ -77,12 +78,28 @@ listGames(){
     });
   });
 }
-getGame(gameid){
-  return this.afs.firestore.doc('/Games/'+gameid).get().then(
+getGame(gameid): Observable<any>{
+  return this.afs.doc('/Games/'+gameid).snapshotChanges().map(
+    item => {
+      if(item.payload.exists){
+        const id = item.payload.id;
+        const data = item.payload.data();
+        data['id'] = id;
+        return data;
+      }
+    }
+  );
+    /*
     doc => {
       return doc
-    }
-  )
+    } */
+}
+
+startGame(gameid, player2id){
+  this.afs.doc('/Games/'+gameid).update({
+    state: "Full",
+    player2: player2id
+  })
 }
 
 }

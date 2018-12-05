@@ -29,7 +29,13 @@
       </div>
       <div *ngIf="currentGame!=null">
   <ion-list>
-    {{currentGame.data().name}}
+    Current Game: {{currentGame.name}}
+    <br>
+    Player 1: {{currentGame.player1}}
+    <br>
+    <div *ngIf="currentGame.player2!=null">
+      Player 2: {{currentGame.player2}}
+    </div>
     <ion-item-sliding *ngFor="let item of items | async">
       <ion-item>
         {{item.name}}

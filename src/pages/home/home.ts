@@ -14,11 +14,13 @@ import * as firebase from 'firebase'
 export class HomePage {
   items: Observable<any[]>;
   games: Observable<any[]>;
-  currentGame: firebase.firestore.DocumentSnapshot;
+  currentGame: Observable<any>;
   constructor(public navCtrl: NavController, public firebaseProvider: FirebaseStoreProvider,public alertCtrl: AlertController, public auth: FirebaseAuthProvider ) {
     this.items = firebaseProvider.listItems();
     this.games = firebaseProvider.listGames();
-    this.currentGame = null
+    this.currentGame = null;
+    //this.favoriteList = [];
+    
   }
   addItem(){
     let prompt = this.alertCtrl.create({
@@ -163,7 +165,11 @@ export class HomePage {
         {
           text: 'Save',
           handler: data => {
-            this.firebaseProvider.createGame(data, this.auth.user);
+            this.firebaseProvider.createGame(data, this.auth.user).then(
+              game => {
+                this.joinGame(game.id)
+              }
+            )
           }
         }
       ]
@@ -172,9 +178,19 @@ export class HomePage {
   }
   joinGame(gameid){
     console.log(gameid)
-    this.firebaseProvider.getGame(gameid).then(
+    //var game =  this.firebaseProvider.getGame(gameid)
+    // var gameData = game.snapshotChanges().map(doc => {
+    //   return doc.payload.data()
+    // })
+    
+    this.firebaseProvider.getGame(gameid).subscribe(
       game => {
-        this.currentGame = game
+        if(game.player2==null || game.player1==this.auth.getUID() || game.player2==this.auth.getUID()){
+          this.currentGame = game;
+          if(this.auth.getUID()!=game.player1){
+            this.firebaseProvider.startGame(gameid, this.auth.getUID())
+          }
+        }
       }
     )
   }
