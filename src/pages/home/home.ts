@@ -197,4 +197,5 @@ export class HomePage {
   leaveGame(){
     this.currentGame = null;
   }
+  
 }

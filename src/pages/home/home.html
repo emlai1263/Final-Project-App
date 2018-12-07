@@ -39,6 +39,10 @@
     <ion-item-sliding *ngFor="let item of items | async">
       <ion-item>
         {{item.name}}
+        <br>
+        {{item.description}}
+        <br>
+        {{item.price}} moneys
       </ion-item>
       <ion-item-options>
           <button ion-button icon-only light (click)="updateItem(item)">
