@@ -29,6 +29,9 @@
       </div>
       <div *ngIf="currentGame!=null">
   <ion-list>
+      You have 300 moneys
+      <br>
+      <br>
     Current Game: {{currentGame.name}}
     <br>
     Player 1: {{currentGame.player1}}
@@ -38,11 +41,9 @@
     </div>
     <ion-item-sliding *ngFor="let item of items | async">
       <ion-item>
-        {{item.name}}
+        {{item.name}} - {{item.price}} moneys
         <br>
         {{item.description}}
-        <br>
-        {{item.price}} moneys
       </ion-item>
       <ion-item-options>
           <button ion-button icon-only light (click)="updateItem(item)">
